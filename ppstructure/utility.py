@@ -33,7 +33,7 @@ def init_args():
     parser.add_argument(
         "--layout_path_model",
         type=str,
-        default="lp://PubLayNet/ppyolov2_r50vd_dcn_365e_publaynet/config")
+        default="lp://PubLayNet/ppyolov2_r50vd_dcn_365e/config")
 
     # params for ser
     parser.add_argument("--model_name_or_path", type=str)

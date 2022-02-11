@@ -58,10 +58,13 @@ class OCRSystem(object):
             self.table_layout = lp.PaddleDetectionLayoutModel(
                 config_path=config_path,
                 model_path=model_path,
-                threshold=0.5,
-                enable_mkldnn=args.enable_mkldnn,
+                extra_config = dict(
+                    threshold=0.5,
+                    enable_mkldnn=args.enable_mkldnn,
+                    thread_num=args.cpu_threads
+                ),
                 enforce_cpu=not args.use_gpu,
-                thread_num=args.cpu_threads)
+                )
             self.use_angle_cls = args.use_angle_cls
             self.drop_score = args.drop_score
         elif self.mode == 'vqa':
