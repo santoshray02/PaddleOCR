@@ -40,7 +40,7 @@ class ArgsParser(ArgumentParser):
     def __init__(self):
         super(ArgsParser, self).__init__(
             formatter_class=RawDescriptionHelpFormatter)
-        self.add_argument("-c", "--config", help="configuration file to use")
+        self.add_argument("-c", "--config", help="configuration file to use", default=r"C:\Users\santosh\projects\paperentry\PaddleOCR\det_weights\config.yml")
         self.add_argument(
             "-o", "--opt", nargs='+', help="set configuration options")
         self.add_argument(
@@ -475,10 +475,14 @@ def get_center(model, eval_dataloader, post_process_class):
     return char_center
 
 
-def preprocess(is_train=False):
+def preprocess(is_train=False, config_file=None):
     FLAGS = ArgsParser().parse_args()
-    profiler_options = FLAGS.profiler_options
-    config = load_config(FLAGS.config)
+    
+    if config_file:
+        FLAGS.config = config_file
+        config = load_config(config_file)
+    else:
+        config = load_config(FLAGS.config)
     merge_config(FLAGS.opt)
     profile_dic = {"profiler_options": FLAGS.profiler_options}
     merge_config(profile_dic)
@@ -524,7 +528,7 @@ def preprocess(is_train=False):
         vdl_writer = LogWriter(logdir=vdl_writer_path)
     else:
         vdl_writer = None
-    print_dict(config, logger)
-    logger.info('train with paddle {} and device {}'.format(paddle.__version__,
-                                                            device))
+    # print_dict(config, logger)
+    # logger.info('train with paddle {} and device {}'.format(paddle.__version__,
+    #                                                         device))
     return config, device, logger, vdl_writer
